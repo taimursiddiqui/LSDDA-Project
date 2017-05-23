@@ -1,7 +1,5 @@
 # Large Scale Data Driven WSGI Application
 <br />
-<br />
-<br />
 
 ## Pre-requisites
 • Python 3.6.0 environment with having Flask and PyMongo modules are required.<br />
