@@ -1,0 +1,7 @@
+/*This pagination design is taken from this site
+ http://www.beacontechnologies.com/blog/2015/03/building-a-paginated-listing-with-only-html-and-css-for-responsive-design/*/
+
+.cssPagination .pages > .page:target ~ .page:last-child,
+.cssPagination .pages > .page {display: none;}
+.cssPagination .pages > :last-child,
+.cssPagination .pages > .page:target {display: block;}
