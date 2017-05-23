@@ -1,0 +1,109 @@
+{% extends "base.html"%}
+{% block title %}All Found Programmes{% endblock title %}
+{% block class_nav_all_programmes %}active{% endblock %}
+
+{% block content %}
+
+<div class="jumbotron">
+{% set foundProgammesCount =  foundProgammes.count() %}
+{% if foundProgammesCount >= 1 %}
+  <p class="lead">
+  We have found <b style="color:#d9230f;">{{foundProgammesCount}} programmes</b> against your search:
+  </p>
+  <span><b>{{searchedString}}</b></span>
+
+  <div class="cssPagination">
+    <div class="pages">
+      {% set totalPages = {'pageCount': ((foundProgammesCount/10)|round|int)} %}
+      {% if 10*(totalPages.pageCount) < foundProgammesCount %}
+        {% if totalPages.update({'pageCount': totalPages.pageCount+1}) %}{% endif %}
+      {% endif %}
+      {% set counter = {'count': 0} %}
+      {% set totalRecords = {'record': 0} %}
+
+      {% for programme in foundProgammes | reverse %}
+        {% if counter.count==0 %}
+          <div class="page well bs-component" id="page{{totalPages.pageCount}}">
+          {% if totalPages.update({'pageCount': totalPages.pageCount-1}) %}{% endif %}
+          <table class="table">
+            <tbody>
+        {% endif %}
+              <tr>
+                {% if counter.update({'count': counter.count+1}) %}{% endif %}
+                {% if totalRecords.update({'record': totalRecords.record+1}) %}{% endif %}
+                <td>
+                  <div class="well bs-component">
+                    <b>Complete Title (<a href="http://www.bbc.co.uk/programmes/{{programme.pid}}"  target="_blank"><u>{{programme.pid}}</u></a>):</b><br />
+                    <ul>
+                      {% for key, value in programme.complete_title.items() %}
+                        <li><b>{{key|capitalize()}}:</b> {{value|capitalize()}}</li>
+                      {%endfor %}
+                    </ul>
+                    {% set start_time_list = programme.epoch_start.split('T') %}
+                    <b>Start Time:</b> {{start_time_list[1]}} <b>on</b> {{start_time_list[0]}}<br />
+                    {% set end_time_list = programme.epoch_end.split('T') %}
+                    <b>End Time:</b> {{end_time_list[1]}} <b>on</b> {{end_time_list[0]}}<br />
+                    <b>Master Brand:</b> {{programme.masterbrand|capitalize()}}<br />
+                    <b>Service/Channel:</b> {{programme.service|capitalize()}}<br />
+                    <b>Media Type:</b> {{programme.media_type|capitalize()}}<br />
+                    {% if programme.is_clip==0 %}
+                    <b>Clip:</b> NO
+                    {% else %}
+                    <b>Clip:</b> YES
+                    {% endif %}
+                  </div>
+                </td>
+
+                <td>
+                  <br />
+                  <b>Categories:</b>
+                  <ul>
+                  {% for value in programme.categories %}
+                    <li>{{value|capitalize()}}</li>
+                  {%endfor %}
+                  </ul>
+
+                  <b>Tags:</b>
+                  <ul>
+                  {% for value in programme.tags %}
+                    <li>{{value|capitalize()}}</li>
+                  {%endfor %}
+                  </ul>
+                </td>
+
+              </tr>
+
+        {% if counter.count==10 or totalRecords.record==foundProgammesCount %}
+            </tbody>
+            </table>
+          </div>
+          {% if counter.update({'count': 0}) %}{% endif %}
+        {% endif %}
+    {% endfor %}
+
+    </div>
+
+    {% set totalPagesID = {'pageCount': ((foundProgammesCount/10)|round|int)} %}
+    {% if 10*(totalPagesID.pageCount) < foundProgammesCount %}
+      {% if totalPagesID.update({'pageCount': totalPagesID.pageCount+1}) %}{% endif %}
+    {% endif %}
+    {% if totalPagesID.pageCount >=2 %}
+      <div class="pageNav">
+        <a class="btn btn-primary"><b>&laquo;</b></a>
+      {% for pageNum in range(1,totalPagesID.pageCount+1) %}
+        <a class="pageNumber" href="#page{{pageNum}}">&nbsp;<b>{{pageNum}}</b>&nbsp;</a>
+      {% endfor %}
+        <a class="btn btn-primary"><b>&raquo;</b></a>
+      </div>
+    {% endif %}
+
+  </div>
+
+{% else %}
+  <p>Sorry No results found against your search criteria:</p>
+  <span><b>{{searchedString}}</b></span>
+{% endif %}
+
+</div>
+
+{% endblock %}

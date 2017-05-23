@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    {% block head %}
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in ny other head content must come *after* these tags -->
+    <meta name="description" content="{% block metadescription%}{% endblock %}">
+    <meta name="keywords" content="{% block metakeywords%}{% endblock %}">
+    <title>
+      {% block title %}  LSDDA Project  {% endblock %}
+    </title>
+
+
+    {% block head_css %}
+
+    <link rel="stylesheet " href="{{ url_for('static', filename = 'css/bootstrap.css') }}" >
+    <link rel="stylesheet " href="{{ url_for('static', filename = 'css/custom.min.css') }}" >
+    <link rel="stylesheet " href="{{ url_for('static', filename = 'css/bootstrap_tags_design.css') }}" >
+    <link rel="stylesheet " href="{{ url_for('static', filename = 'css/pagination.css') }}" >
+
+    {% endblock %}
+
+    {% block head_js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" charset="utf-8"></script>
+    <script type="text/javascript">
+    var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
+
+    <script src="{{ url_for('static', filename= 'js/bootstrap_tagspicker.js') }}" charset="utf-8"></script>
+
+    {% endblock %}
+
+
+
+    {% endblock %}
+  </head>
+
+
+  <body>
+    <div class="container">
+
+      <!-- Navigation Items -->
+      <div class="header clearfix">
+          <nav>
+            <ul class="nav nav-pills pull-right">
+              <li role="presentation" class="{% block class_nav_home %}{% endblock %}"><a href="/">Home</a></li>
+              <li role="presentation" class="{% block class_nav_all_programmes %}{% endblock %}"><a href="/all_programmes">Programmes</a></li>
+              <li role="presentation" class="{% block class_nav_about %}{% endblock %}"><a href="/about">About</a></li>
+            </ul>
+          </nav>
+          <h3 class="text-muted" style="color:#d9230f"><b>Large Scale Data Driven Web Application</b></h3>
+      </div>
+
+      {% block content %}
+
+      {% endblock %}
+
+
+
+      {% include "footer.html" %}
+
+    </div> <!-- /container -->
+
+  </body>
+
+
+</html>
