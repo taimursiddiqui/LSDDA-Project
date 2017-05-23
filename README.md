@@ -2,6 +2,7 @@
 <br />
 <br />
 <br />
+
 ## Pre-requisites
 • Python 3.6.0 environment with having Flask and PyMongo modules are required.<br />
 • For data formation and filtration script to be executed, Java SDK and JRE are must.<br />
